@@ -1,0 +1,41 @@
+CREATE DATABASE bancodedados;
+
+USE bancodedados;
+
+CREATE TABLE usuarios(
+	codigo int(5) AUTO_INCREMENT,
+	realName varchar(30) NOT NULL,
+    username varchar(30),
+	email varchar(50) NOT NULL,
+    accountPassword varchar(50) NOT NULL,
+	PRIMARY KEY (codigo)
+);
+
+ALTER TABLE `bancodedados`.`usuarios` 
+ADD UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+ADD UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE;
+;
+
+ALTER TABLE `bancodedados`.`usuarios` 
+CHANGE COLUMN `accountPassword` `accountPassword` VARCHAR(100) NOT NULL ,
+ADD UNIQUE INDEX `codigo_UNIQUE` (`codigo` ASC) VISIBLE;
+;
+
+ALTER TABLE `bancodedados`.`usuarios` 
+CHANGE COLUMN `realName` `realName` VARCHAR(50) NOT NULL ,
+CHANGE COLUMN `username` `username` VARCHAR(50) NULL DEFAULT NULL ;
+
+
+# Cria a coluna que irá armazenar o token de acesso do usuário, com ele podendo ser nulo mas não podendo se repetir.
+
+ALTER TABLE `bancodedados`.`usuarios` 
+ADD COLUMN `accessToken` VARCHAR(100) NULL AFTER `accountPassword`,
+ADD UNIQUE INDEX `accessToken_UNIQUE` (`accessToken` ASC) VISIBLE;
+;
+
+
+# Altera o tamanho da coluna de email e accessToken para poder comportar os valores de forma correta
+
+ALTER TABLE `bancodedados`.`usuarios` 
+CHANGE COLUMN `email` `email` VARCHAR(255) NOT NULL ,
+CHANGE COLUMN `accessToken` `accessToken` VARCHAR(300) NULL DEFAULT NULL ;

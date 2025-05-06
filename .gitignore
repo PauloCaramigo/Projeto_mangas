@@ -1,4 +1,3 @@
 # Ignora tudo sobre o banco de dados, impedindo que sua estrutura e api's subam para o git
 
-bd/
-
+# bd/
