@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Perfil</title>
+
+        <link rel="stylesheet" href="../style/tailwindOutput.css">
+    </head>
+    <body class="h-screen">
+        <div id="header"></div>
+        <script>
+            fetch('header.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('header').innerHTML = html;
+
+                    const script = document.createElement('script');
+                    script.src = '../script/header.js';
+                    document.body.appendChild(script);
+                })
+                .catch(error => console.error('Error loading header:', error));
+        </script>
+        
+        <section class="container mx-auto flex">
+            <div class="container grid grid-cols-3 gap-4 mx-auto mt-10 w-200 bg-gray-300 p-8 rounded-lg">
+                <div id="menuOptions" class="flex flex-col gap-4">
+                    <a href="#" id="aProfile" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Perfil</a>
+                    <a href="#" id="aPerformance" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Desempenho</a>
+                    <a href="#" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Historico</a>
+                    <a href="#" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Configurações</a>
+                    <a href="#" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Ajuda</a>
+                </div>
+
+                <div id="profileContent" class="col-span-2">
+                    <img src="../src/accountCircle.svg" alt="profilePicture" class="w-32">
+                    <p id="userName">Nome de usuário: </p>
+                    <input type="text" name="userName" id="userNameInput" disabled value="Nome do usuário" class="w-96 cursor-text rounded-lg mb-4 disabled:bg-gray-200 disabled:text-gray-500">
+                    <p id="realName">Nome: </p>
+                    <input type="text" name="realName" id="realNameInput" disabled value="Nome real do usuário" class="w-96 cursor-text rounded-lg mb-4 disabled:bg-gray-200 disabled:text-gray-500">
+                    <p id="email">Email: </p>
+                    <input type="email" name="email" id="emailInput" disabled value="Email do usuário" class="w-96 cursor-text rounded-lg mb-4 disabled:bg-gray-200 disabled:text-gray-500">
+
+                    <br><br>
+                    <button class="cursor-pointer font-bold text-red-800" onclick="logout()">Sair</button>
+                </div>
+
+                <div id="performanceContent" class="hidden">
+                    <h2>Atividades Recentes</h2>
+                    <div class="chart" id="chart"></div>
+                    <div class="day-labels" id="labels"></div>
+                </div>
+            </div>
+        </section>
+
+        <div id="footer"></div>
+        <script>
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('footer').innerHTML = html;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        </script>
+    </body>
+</html>

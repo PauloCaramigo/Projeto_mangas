@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Página principal</title>
+
+        <link rel="stylesheet" href="../style/tailwindOutput.css">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle" />
+    </head>
+    <body>
+        <div id="header"></div>
+        <script>
+            fetch('header.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('header').innerHTML = html;
+
+                    const script = document.createElement('script');
+                    script.src = '../script/header.js';
+                    document.body.appendChild(script);
+                })
+                .catch(error => console.error('Error loading header:', error));
+        </script>
+
+        <div id="default-carousel" class="container relative m-auto" data-carousel="slide">
+            <!-- Carousel wrapper -->
+            <div class="relative h-80 overflow-hidden rounded-lg md:h-150">
+                 <!-- Item 1 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="../src/temp.png" alt="Carousel Image" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                </div>
+                <!-- Item 2 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="../src/temp.png" alt="Carousel Image" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                </div>
+                <!-- Item 3 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="../src/temp.png" alt="Carousel Image" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                </div>
+                <!-- Item 4 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="../src/temp.png" alt="Carousel Image" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                </div>
+                <!-- Item 5 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="../src/temp.png" alt="Carousel Image" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                </div>
+            </div>
+
+            <!-- Slider indicators -->
+            <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+                <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
+                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
+            </div>
+
+            <!-- Slider controls -->
+            <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                    </svg>
+                    <span class="sr-only">Previous</span>
+                </span>
+            </button>
+            <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <span class="sr-only">Next</span>
+                </span>
+            </button>
+        </div>
+
+        <section id="pageContent" class="container mx-auto mt-10">
+            <h1 class="font-bold text-xl">Mais recentes</h1>
+            <div class="grid md:grid-cols-3 gap-4 p-6">
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 1</h2>
+                    <p>Conteúdo 1</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 2</h2>
+                    <p>Conteúdo 2</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 3</h2>
+                    <p>Conteúdo 3</p>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 1</h2>
+                    <p>Conteúdo 1</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 2</h2>
+                    <p>Conteúdo 2</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 3</h2>
+                    <p>Conteúdo 3</p>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 1</h2>
+                    <p>Conteúdo 1</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 2</h2>
+                    <p>Conteúdo 2</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
+                    <h2 class="text-xl font-bold">Título 3</h2>
+                    <p>Conteúdo 3</p>
+                </div>
+            </div>
+
+            <div class="w-full flex justify-center">
+                <button type="button" class="bg-gray-500 text-white font-bold py-2 px-4 rounded mt-4 w-100 m-auto hover:bg-gray-700 transition duration-300 ease-in-out">
+                    MOSTRAR MAIS
+                </button>
+
+            </div>
+        </section>
+
+        <div id="footer"></div>
+        <script>
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('footer').innerHTML = html;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        </script>
+
+        <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+    </body>
+</html>
