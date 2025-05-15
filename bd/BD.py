@@ -9,6 +9,7 @@ import jwt;
 
 app = FastAPI()
 
+# Alterar a chave secreta posteriormente visto que a mesma foi exposta no github.
 SECRET_KEY = "[S!v`qVS_'OStH7p.S-s<C~t£k:\"L£9!${EIs(l}F{|P%_{=4m";
 ALGORITHM = "HS256";
 
@@ -28,7 +29,7 @@ app.add_middleware(
 def conectar_banco():
     return mysql.connector.connect(
         host="localhost",
-        user="admin",
+        user="root",
         password="1234",
         database="bancodedados"
     )
@@ -45,9 +46,23 @@ class loginUser(BaseModel):
     email: str
     accountPassword: str
 
+# Body para deslogar um usuário
+class logoutUser(BaseModel):
+    userId: str
+    accessToken: str
+
+# Body para requisitar um token
 class infoAccessToken(BaseModel):
     accessToken: str
     email: str
+
+# Body para um novo manga
+class infoNewManga(BaseModel):
+    mangaName: str
+    resumeManga: str
+    mangaImage: str
+    genre: str
+    dateLatestChapter: str
 
 # Rota para buscar todos os usuários
 @app.get("/usuarios")
@@ -56,6 +71,19 @@ def listar_usuarios():
     cursor = conn.cursor(dictionary=True);
     cursor.execute("SELECT * FROM usuarios");
     response = cursor.fetchall();
+    cursor.close();
+    conn.close();
+    return response;
+
+# Rota para buscar um usuário em específico
+@app.get("/usuarios/{id}")
+def listar_usuario(id: int):
+    conn = conectar_banco();
+    cursor = conn.cursor(dictionary=True);
+    sql = "SELECT realName, username, email, imgProfile FROM usuarios WHERE codigo = %s";
+    valores = (id,);
+    cursor.execute(sql, valores);
+    response = cursor.fetchone();
     cursor.close();
     conn.close();
     return response;
@@ -83,7 +111,7 @@ def criar_usuario(dataUser: createUser):
 def login(dataUser: loginUser):
     conn = conectar_banco();
     cursor = conn.cursor();
-    sql = "SELECT accountPassword FROM usuarios WHERE email = %s";
+    sql = "SELECT codigo, accountPassword FROM usuarios WHERE email = %s";
     valores = (dataUser.email,);
     cursor.execute(sql, valores);
     response = cursor.fetchone();
@@ -91,12 +119,38 @@ def login(dataUser: loginUser):
     cursor.close();
     conn.close();
 
-    if checkPassword(dataUser.accountPassword, response[0]):
+    if checkPassword(dataUser.accountPassword, response[1]):
         token = createToken(dataUser.email);
         saveAccessToken(token, dataUser.email);
-        return {"mensagem": "Login bem-sucedido!", "token": token, "email": dataUser.email};
+        return {"mensagem": "Login bem-sucedido!", "token": token, "email": dataUser.email, "userId": response[0]};
     else:
         raise HTTPException(status_code=401, detail="Credenciais inválidas");
+
+# Rota para deslogar do site
+@app.post("/logout")
+def logout(dataLogout: logoutUser):
+    conn = conectar_banco();
+    cursor = conn.cursor();
+    sql = "UPDATE usuarios SET accessToken = %s WHERE codigo = %s AND accessToken = %s";
+    valores = ("NULL", dataLogout.userId, dataLogout.accessToken);
+    cursor.execute(sql, valores);
+    response = cursor.fetchone();
+    conn.commit();
+    cursor.close();
+    conn.close();
+     
+# Rota para resgatar o caminho da foto de perfil do usuário
+@app.get("/imgProfile/{id}")
+def imgProfile(id: int):
+    conn = conectar_banco();
+    cursor = conn.cursor(dictionary=True);
+    sql = "SELECT imgProfile FROM usuarios WHERE codigo = %s";
+    valores = (id,);
+    cursor.execute(sql, valores);
+    response = cursor.fetchone();
+    cursor.close();
+    conn.close();
+    return response
 
 # Valida se o token é válido
 @app.post("/validAccessToken")
@@ -113,6 +167,34 @@ def validAccessToken(dataToken: infoAccessToken):
     validToken = checkToken(response["accessToken"]);
     return validToken;
 
+# Rota para puxar a lista de mangas
+@app.get("/latestMangas")
+def lista_mangas():
+    conn = conectar_banco();
+    cursor = conn.cursor(dictionary=True);
+    sql = "SELECT * FROM mangas ORDER BY dateLatestChapter DESC";
+    cursor.execute(sql);
+    response = cursor.fetchall();
+    cursor.close();
+    conn.close();
+    return response;
+
+# Rota para inserir um novo manga
+@app.post("/newManga")
+def newManga(infoNewManga: infoNewManga):
+    conn = conectar_banco();
+    cursor = conn.cursor();
+    sql = "INSERT INTO mangas (mangaName, resumeManga, mangaImage, genre, dateLatestChapter) VALUES (%s, %s, %s, %s, %s)";
+    valores = (infoNewManga.mangaName, infoNewManga.resumeManga, infoNewManga.mangaImage, infoNewManga.genre, infoNewManga.dateLatestChapter);
+    cursor.execute(sql, valores);
+    conn.commit();
+    cursor.close();
+    conn.close();
+
+    return {"mensagem": "Manga adicionado com sucesso!"};
+
+
+# Função para armazenar o token de acesso do usuário no banco de dados
 def saveAccessToken(token: str, email: str):
     conn = conectar_banco();
     cursor = conn.cursor();
@@ -123,6 +205,7 @@ def saveAccessToken(token: str, email: str):
     cursor.close();
     conn.close();
 
+# Função para criptografar a senha
 def cryptPassword(password: str):
     saltRounds = 10;
     passHash = "";
@@ -135,12 +218,14 @@ def cryptPassword(password: str):
 
     return passHash;
 
+# Função para validar a senha
 def checkPassword(password: str, hash: str):
     if bcrypt.checkpw(password.encode('utf-8'), hash.encode('utf-8')):
         return True;
     else:
         return False;
 
+# Função para criar um token
 def createToken(email):
     payload = {
         "email": email,
@@ -150,6 +235,7 @@ def createToken(email):
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return token
 
+# Função para verificar se o token é válido
 def checkToken(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])

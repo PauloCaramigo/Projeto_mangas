@@ -5,6 +5,8 @@ function setCookie(name, value, days) {
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
+    console.log(name + "=" + (value || "") + expires + "; path=/");
+
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
@@ -23,4 +25,16 @@ function getCookie(name) {
     return null;
 }
 
-export { setCookie, getCookie };
+function removeCookie(name, path = "/", domain = "") {
+    console.log(name);
+    console.log(path);
+    console.log(domain);
+
+    if (getCookie(name)) {
+        document.cookie = name + "=;" +
+            "expires=Sat, 01 Jan 1990 00:00:01 GMT;" +
+            "path=" + path + ";";
+    }
+}
+
+export { setCookie, getCookie, removeCookie };

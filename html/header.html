@@ -1,30 +1,31 @@
 <header class="flex justify-between items-center p-6">
-    <img src="../src/menu.svg" class="cursor-pointer" >
+    <img src="../src/menu.svg" id="hamburguerMenuIcon" class="cursor-pointer">
 
-    <input type="search" name="search" class="w-96 border border-gray-300 rounded-lg p-2" placeholder="Pesquisar...">
+    <div id="sideMenu" class="fixed bg-gray-200 w-100 h-screen -translate-x-full left-0 top-0 z-50 p-8 transition duration-300">
+        <img src="../src/menu.svg" id="hamburguerMenuIconSideMenu" class="cursor-pointer">
 
-    <nav class="flex">
-        <ul class="flex space-x-6">
-            <li><a href="mainPage.html">Pagina principal</a></li>
-            <li><a href="#">Categorias</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Fale conosco</a></li>
-        </ul>
+        <div class="flex flex-col mt-10">        
+            <a href="mainPage.html" >Pagina principal</a>
+        </div>
+    </div>
 
-        <div class="relative">
-            <button type="button" id="menuAccount" class="cursor-pointer ml-10">
-                <img src="../src/accountCircle.svg" class="cursor-pointer" >
-            </button>
-            
-            <div id="dropdownMenuAccount" class="absolute border border-gray-300 rounded-lg bg-gray-100 p-6 w-100 top-10 end-0 z-40" hidden="true">
-                <div class="flex flex-col">
-                    <a href="profile.html" >Perfil</a>
-                    <a href="#" >Desempenho</a>
-                    <a href="#" >Historico</a>
-                    <a href="#" >Configurações</a>
-                    <a href="#" class="mt-4">Entrar</a>
-                </div>
+    <input type="search" name="search" class="w-150 border border-gray-300 rounded-lg p-2" placeholder="Pesquisar...">
+
+    <div class="relative">
+        <button type="button" id="menuAccount" class="cursor-pointer ml-10">
+            <img src="../src/accountCircle.svg" class="cursor-pointer w-8 rounded-full" id="imgProfileHeader">
+        </button>
+        
+        <div id="dropdownMenuAccount" class="absolute border border-gray-300 rounded-lg bg-gray-100 p-6 w-100 top-10 end-0 z-40" hidden="true">
+            <div class="flex flex-col">
+                <a href="profile.html" >Perfil</a>
+                <a href="#" >Desempenho</a>
+                <a href="#" >Historico</a>
+                <a href="#" >Configurações</a>
+                <a href="login.html" id="login" class="mt-4">Entrar</a>
+                <a href="#" id="logout" class="mt-4 text-red-800" hidden>Sair</a>
             </div>
         </div>
-    </nav>
+    </div>
+
 </header>

@@ -39,3 +39,31 @@ ADD UNIQUE INDEX `accessToken_UNIQUE` (`accessToken` ASC) VISIBLE;
 ALTER TABLE `bancodedados`.`usuarios` 
 CHANGE COLUMN `email` `email` VARCHAR(255) NOT NULL ,
 CHANGE COLUMN `accessToken` `accessToken` VARCHAR(300) NULL DEFAULT NULL ;
+
+
+# Adiciona a coluna de imagem de perfil
+
+ALTER TABLE `bancodedados`.`usuarios` 
+ADD COLUMN `imgProfile` VARCHAR(100) NULL AFTER `accessToken`;
+
+
+# Cria a tabela que armazena os mangas
+
+CREATE TABLE mangas (
+	mangaName VARCHAR(100) NOT NULL,
+    resumeManga VARCHAR(300) NOT NULL,
+	mangaImage VARCHAR(100) NOT NULL,
+    genre VARCHAR(200) NOT NULL,
+    UNIQUE(mangaName, mangaImage)
+);
+
+
+# Cria a coluna de capitulo mais recente para a tabela de mangas
+
+ALTER TABLE mangas ADD COLUMN dateLatestChapter DATETIME NOT NULL;
+
+
+# Altera o tamanho da coluna de resumo dos mangas
+
+ALTER TABLE `bancodedados`.`mangas` 
+CHANGE COLUMN `resumeManga` `resumeManga` VARCHAR(500) NOT NULL ;

@@ -22,7 +22,9 @@ function loginUser(event) {
             response.json().then(data => {
                 setCookie('accessToken', data.token, 30);
                 setCookie('email', data.email, 30);
-                window.location.href = '../html/mainPage.html';
+                setCookie('userId', data.userId, 30);
+
+                //window.location.href = '../html/mainPage.html';
             });  
         } else {
             throw new Error('Erro ao logar com o usuário informado');

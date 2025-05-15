@@ -19,6 +19,7 @@
 
                     const script = document.createElement('script');
                     script.src = '../script/header.js';
+                    script.type = 'module';
                     document.body.appendChild(script);
                 })
                 .catch(error => console.error('Error loading header:', error));
@@ -77,55 +78,17 @@
             </button>
         </div>
 
-        <section id="pageContent" class="container mx-auto mt-10">
+        <section id="pageContent" class="container mx-auto mt-10 mb-30">
             <h1 class="font-bold text-xl">Mais recentes</h1>
-            <div class="grid md:grid-cols-3 gap-4 p-6">
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 1</h2>
-                    <p>Conteúdo 1</p>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 2</h2>
-                    <p>Conteúdo 2</p>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 3</h2>
-                    <p>Conteúdo 3</p>
-                </div>
-
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 1</h2>
-                    <p>Conteúdo 1</p>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 2</h2>
-                    <p>Conteúdo 2</p>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 3</h2>
-                    <p>Conteúdo 3</p>
-                </div>
-
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 1</h2>
-                    <p>Conteúdo 1</p>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 2</h2>
-                    <p>Conteúdo 2</p>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
-                    <h2 class="text-xl font-bold">Título 3</h2>
-                    <p>Conteúdo 3</p>
-                </div>
-            </div>
+            <div class="grid md:grid-cols-3 gap-4 p-6" id="recentMangas"></div>
 
             <div class="w-full flex justify-center">
                 <button type="button" class="bg-gray-500 text-white font-bold py-2 px-4 rounded mt-4 w-100 m-auto hover:bg-gray-700 transition duration-300 ease-in-out">
                     MOSTRAR MAIS
                 </button>
-
             </div>
+
+            <script src="../script/mostRecentMangas.js"></script>
         </section>
 
         <div id="footer"></div>
