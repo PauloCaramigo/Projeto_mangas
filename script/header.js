@@ -1,4 +1,4 @@
-import { getCookie } from "./manageCookies.js";
+import { setCookie, getCookie } from "./manageCookies.js";
 import { logoutUser } from "./logout.js";
 
 const menu = document.getElementById("menuAccount");
@@ -10,6 +10,8 @@ const sideMenu = document.getElementById("sideMenu");
 
 const login = document.getElementById('login');
 const logout = document.getElementById('logout');
+
+const profileHeader = document.getElementById('profileHeader');
 
 const userId = getCookie('userId');
 
@@ -33,12 +35,15 @@ document.addEventListener("click", function (event) {
     }
 });
 
-login.addEventListener("click", function (event) {
-    window.location.href = '../html/login.html';
-});
-
 logout.addEventListener("click", function (event) {
     logoutUser();
+})
+
+profileHeader.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    setCookie("pageProfile", "profileInfo");
+    window.location.href = "../html/profile.html";
 })
 
 fetch(`http://127.0.0.1:8000/imgProfile/${userId}`, {

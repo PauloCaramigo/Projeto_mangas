@@ -229,7 +229,7 @@ def checkPassword(password: str, hash: str):
 def createToken(email):
     payload = {
         "email": email,
-        "exp": datetime.now(timezone.utc) + timedelta(hours=1),  # expira em 1 hora
+        "exp": datetime.now(timezone.utc) + timedelta(hours=30),  # expira em 1 hora
         "iat": datetime.now(timezone.utc)  # empo de criação
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)

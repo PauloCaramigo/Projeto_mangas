@@ -24,7 +24,7 @@ function loginUser(event) {
                 setCookie('email', data.email, 30);
                 setCookie('userId', data.userId, 30);
 
-                //window.location.href = '../html/mainPage.html';
+                window.location.href = '../html/mainPage.html';
             });  
         } else {
             throw new Error('Erro ao logar com o usuário informado');
