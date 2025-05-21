@@ -10,8 +10,9 @@ fetch(`http://127.0.0.1:8000/latestMangas`, {
             const recentMangasContainer = document.getElementById('recentMangas');
 
             data.slice(0, 9).forEach(manga => {
-                const mangaElement = document.createElement('div');
+                const mangaElement = document.createElement('a');
                 mangaElement.classList.add('flex', 'p-4', 'rounded-lg', 'shadow-md', 'mt-4');
+                mangaElement.setAttribute('href', `/${manga.idManga}`);
                 mangaElement.innerHTML = `
                     <img src="${manga.mangaImage}" alt="${manga.mangaName}" class="mr-4 w-32">
                     <div>

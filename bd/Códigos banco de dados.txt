@@ -67,3 +67,74 @@ ALTER TABLE mangas ADD COLUMN dateLatestChapter DATETIME NOT NULL;
 
 ALTER TABLE `bancodedados`.`mangas` 
 CHANGE COLUMN `resumeManga` `resumeManga` VARCHAR(500) NOT NULL ;
+
+
+# Adiciona a coluna de like e deslike dos mangas
+
+ALTER TABLE `bancodedados`.`mangas` 
+ADD COLUMN `like` INT NULL DEFAULT 0 AFTER `dateLatestChapter`,
+ADD COLUMN `deslike` INT NULL DEFAULT 0 AFTER `like`;
+
+
+# Modificando o nome das colunas de like e deslike para não dar problema no banco de dados
+
+ALTER TABLE `bancodedados`.`mangas` 
+CHANGE COLUMN `like` `likeColumn` INT NULL DEFAULT '0' ,
+CHANGE COLUMN `deslike` `deslikeColumn` INT NULL DEFAULT '0' ;
+
+
+# Adiciona o ID dos mangas e sua primary key
+
+ALTER TABLE `bancodedados`.`mangas` 
+ADD COLUMN `idManga` INT NOT NULL AUTO_INCREMENT FIRST,
+ADD UNIQUE INDEX `idManga_UNIQUE` (`idManga` ASC) VISIBLE,
+ADD PRIMARY KEY (`idManga`);
+;
+
+
+# Cria tabela de like dos mangas
+
+CREATE TABLE likeMangas (
+	likeId INT NOT NULL AUTO_INCREMENT,
+    dateLike DATETIME,
+    PRIMARY KEY (likeId),
+)
+
+
+# Adiciona o valor boolean para saber se será um like ou deslike
+
+ALTER TABLE `bancodedados`.`likemangas` 
+ADD COLUMN `like` BOOLEAN AFTER `dateLike`;
+
+
+# Altera o nome do like no banco de dados para evitar problemas
+
+ALTER TABLE `bancodedados`.`likemangas` 
+CHANGE COLUMN `like` `likeType` TINYINT(1) NULL DEFAULT NULL ;
+
+
+# Adiciona novamente os UNIQUE para que não haja duplicidade no tabela
+
+ALTER TABLE `bancodedados`.`likemangas` 
+  ADD COLUMN `idManga` INT NOT NULL AFTER `likeType`,
+  ADD COLUMN `codigo` INT NOT NULL AFTER `idManga`,
+  ADD UNIQUE INDEX `unique_like` (`idManga`, `codigo`);
+
+ALTER TABLE `bancodedados`.`likemangas` 
+  ADD CONSTRAINT `fk_likeManga_idManga`
+    FOREIGN KEY (`idManga`)
+    REFERENCES `bancodedados`.`mangas` (`idManga`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_likeManga_codigo`
+    FOREIGN KEY (`codigo`)
+    REFERENCES `bancodedados`.`usuarios` (`codigo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+
+# Remove as colunas de like de deslike da tabela de mangas
+
+ALTER TABLE `bancodedados`.`mangas` 
+DROP COLUMN `deslikeColumn`,
+DROP COLUMN `likeColumn`;

@@ -1,4 +1,4 @@
-import { setCookie } from './manageCookies.js';
+import { setCookie } from '/script/manageCookies.js';
 
 const form = document.getElementById('loginForm');
 form.addEventListener('submit', loginUser);
@@ -24,7 +24,7 @@ function loginUser(event) {
                 setCookie('email', data.email, 30);
                 setCookie('userId', data.userId, 30);
 
-                window.location.href = '../html/mainPage.html';
+                window.location.href = '/';
             });  
         } else {
             throw new Error('Erro ao logar com o usuário informado');

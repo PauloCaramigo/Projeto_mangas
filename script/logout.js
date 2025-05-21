@@ -1,4 +1,4 @@
-import { getCookie, removeCookie } from "./manageCookies.js";
+import { getCookie, removeCookie } from "/script/manageCookies.js";
 
 function logoutUser() {
     const userId = getCookie('userId');
@@ -23,7 +23,7 @@ function logoutUser() {
 
                 window.location.reload()
             });  
-        } else {
+        } else {    
             throw new Error('Erro ao resgatar as informações do usuário.');
         }
     });

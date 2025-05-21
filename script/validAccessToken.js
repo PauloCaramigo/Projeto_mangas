@@ -1,4 +1,4 @@
-import { getCookie } from "./manageCookies.js";
+import { getCookie } from "/script/manageCookies.js";
 
 const token = getCookie('accessToken');
 const email = getCookie('email');
@@ -16,7 +16,7 @@ if (token && email) {
     })
     .then(response => {
         if (response.ok) {
-            window.location.href = '../html/mainPage.html';
+            window.location.href = '/';
         } else {
             throw new Error('Erro ao validar o token de acesso');
         }

@@ -1,4 +1,4 @@
-import { getCookie } from "./manageCookies.js";
+import { getCookie } from "/script/manageCookies.js";
 
 const userId = getCookie('userId');
 

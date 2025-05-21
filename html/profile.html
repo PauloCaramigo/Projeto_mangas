@@ -5,18 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Perfil</title>
 
-        <link rel="stylesheet" href="../style/tailwindOutput.css">
+        <link rel="stylesheet" href="/style/tailwindOutput.css">
     </head>
     <body class="h-screen">
         <div id="header"></div>
         <script>
-            fetch('header.html')
+            fetch('/html/header.html')
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('header').innerHTML = html;
 
                     const script = document.createElement('script');
-                    script.src = '../script/header.js';
+                    script.src = '/script/header.js';
                     script.type = 'module';
                     document.body.appendChild(script);
                 })
@@ -26,11 +26,11 @@
         <section class="container mx-auto flex h-full mb-10">
             <div class="container grid grid-cols-3 gap-4 mx-auto mt-10 w-400 bg-gray-300 p-8 rounded-lg">
                 <div id="menuOptions" class="flex flex-col gap-4">
-                    <a href="#" id="aProfile" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Perfil</a>
-                    <a href="#" id="aPerformance" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Desempenho</a>
-                    <a href="#" id="aHistory" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Historico</a>
-                    <a href="#" id="aConfig" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Configurações</a>
-                    <a href="#" id="aHelp" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold">Ajuda</a>
+                    <a id="aProfile" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold cursor-pointer">Perfil</a>
+                    <a id="aPerformance" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold cursor-pointer">Desempenho</a>
+                    <a id="aHistory" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold cursor-pointer">Historico</a>
+                    <a id="aConfig" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold cursor-pointer">Configurações</a>
+                    <a id="aHelp" class="bg-gray-400 hover:bg-gray-500 p-4 rounded-lg font-bold cursor-pointer">Ajuda</a>
                 </div>
 
                 <div id="content" class="col-span-2">
@@ -39,7 +39,7 @@
 
         <div id="footer"></div>
         <script>
-            fetch('footer.html')
+            fetch('/html/footer.html')
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('footer').innerHTML = html;
@@ -47,6 +47,6 @@
                 .catch(error => console.error('Error loading footer:', error));
         </script>
 
-        <script src="../script/profile.js" type="module"></script>
+        <script src="/script/profile.js" type="module"></script>
     </body>
 </html>

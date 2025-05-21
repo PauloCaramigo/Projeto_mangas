@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>>Nome do manga<</title>
+
+        <link rel="stylesheet" href="/style/tailwindOutput.css">
+    </head>
+    <body>
+        <div id="header"></div>
+        <script>
+            fetch('/html/header.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('header').innerHTML = html;
+
+                    const script = document.createElement('script');
+                    script.src = '/script/header.js';
+                    script.type = 'module';
+                    document.body.appendChild(script);
+                })
+                .catch(error => console.error('Error loading header:', error));
+        </script>
+
+        <section>
+            <div class="container bg-gray-200 w-400 h-full min-h-200 mb-10 mx-auto rounded-lg p-10">
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="mx-auto">
+                        <img src="" alt="Imagem do manga" id="mangaImage" class="w-auto h-140 rounded-lg">
+                    </div>
+
+                    <div class="col-span-2">
+                        <p id="mangaName" class="text-3xl font-bold">NOME DO MANGA</p>
+                        <p id="resumeManga" >RESUMO DO MANGA</p>
+                        <br>
+                        <p class="font-bold">GENERO:</p>
+                        <p id="mangaGenre">GENERO</p>
+                    </div>
+
+                    <div class="col-span-2 invisible"></div>
+                    <div class="flex justify-end">
+                        <button id="likeButton" class="flex bg-gray-400 hover:bg-gray-500 w-20 rounded-s-full cursor-pointer">
+                            <div class="mx-auto flex">
+                                <img src="/src/like.svg" alt="Like" class="mr-2">
+                                <p id="like">0</p>
+                            </div>
+                        </button>
+                        <button id="deslikeButton" class="flex bg-gray-400 hover:bg-gray-500 w-20 rounded-e-full cursor-pointer">
+                            <div class="mx-auto flex">
+                                <img src="/src/deslike.svg" alt="Deslike" class="mr-2">
+                                <p id="deslike">0</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="footer"></div>
+        <script>
+            fetch('/html/footer.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('footer').innerHTML = html;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        </script>
+
+        <script src="/script/mangaPage.js" type="module"></script>
+    </body>
+</html>

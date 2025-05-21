@@ -5,14 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Página principal</title>
 
-        <link rel="stylesheet" href="../style/tailwindOutput.css">
-
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle" />
+        <link rel="stylesheet" href="/style/tailwindOutput.css">
     </head>
     <body>
         <div id="header"></div>
         <script>
-            fetch('header.html')
+            fetch('/html/header.html')
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('header').innerHTML = html;
@@ -88,12 +86,12 @@
                 </button>
             </div>
 
-            <script src="../script/mostRecentMangas.js"></script>
+            <script src="/script/mostRecentMangas.js"></script>
         </section>
 
         <div id="footer"></div>
         <script>
-            fetch('footer.html')
+            fetch('/html/footer.html')
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('footer').innerHTML = html;
@@ -101,6 +99,6 @@
                 .catch(error => console.error('Error loading footer:', error));
         </script>
 
-        <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+        <script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
     </body>
 </html>

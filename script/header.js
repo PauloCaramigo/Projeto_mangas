@@ -1,5 +1,5 @@
-import { setCookie, getCookie } from "./manageCookies.js";
-import { logoutUser } from "./logout.js";
+import { setCookie, getCookie } from "/script/manageCookies.js";
+import { logoutUser } from "/script/logout.js";
 
 const menu = document.getElementById("menuAccount");
 const dropdown = document.getElementById("dropdownMenuAccount");
@@ -9,9 +9,12 @@ const hamburguerMenuIconSideMenu = document.getElementById("hamburguerMenuIconSi
 const sideMenu = document.getElementById("sideMenu");
 
 const login = document.getElementById('login');
-const logout = document.getElementById('logout');
+const logout = document.getElementById('logoutHeader');
 
 const profileHeader = document.getElementById('profileHeader');
+const performanceHeader = document.getElementById('performanceHeader');
+const historyHeader = document.getElementById('historyHeader');
+const configHeader = document.getElementById('configHeader');
 
 const userId = getCookie('userId');
 
@@ -43,7 +46,28 @@ profileHeader.addEventListener("click", function (event) {
     event.preventDefault();
 
     setCookie("pageProfile", "profileInfo");
-    window.location.href = "../html/profile.html";
+    window.location.href = "/profile";
+})
+
+performanceHeader.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    setCookie("pageProfile", "performance");
+    window.location.href = "/performance";
+})
+
+historyHeader.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    setCookie("pageProfile", "history");
+    window.location.href = "/history";
+})
+
+configHeader.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    setCookie("pageProfile", "config");
+    window.location.href = "/configuration";
 })
 
 fetch(`http://127.0.0.1:8000/imgProfile/${userId}`, {

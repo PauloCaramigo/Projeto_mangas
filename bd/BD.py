@@ -4,6 +4,7 @@ from pydantic import BaseModel;
 from datetime import datetime, timedelta, timezone
 
 import mysql.connector;
+import pymysql
 import bcrypt;
 import jwt;
 
@@ -63,6 +64,30 @@ class infoNewManga(BaseModel):
     mangaImage: str
     genre: str
     dateLatestChapter: str
+
+# Body para validar a quantidade de likes e deslikes do manga
+class qntLikeManga(BaseModel):
+    idManga: int
+    likeType: int
+
+# Body para verificar se o usuário já deu like ou deslike no manga
+class verifyLike(BaseModel):
+    idManga: int
+    codigoUsuario: int
+    likeType: bool
+
+# Body para adicionar um like ou deslike no manga
+class infoLikeManga(BaseModel):
+    idManga: int
+    codigoUsuario: int
+    dateLike: str
+    like: bool
+
+# Body para remover um like ou deslike no manga
+class infoRemoveLikeManga(BaseModel):
+    idManga: int
+    codigoUsuario: int
+    like: bool
 
 # Rota para buscar todos os usuários
 @app.get("/usuarios")
@@ -193,6 +218,108 @@ def newManga(infoNewManga: infoNewManga):
 
     return {"mensagem": "Manga adicionado com sucesso!"};
 
+# Rota para puxar a lista de mangas
+@app.get("/manga/{mangaId}")
+def lista_mangas(mangaId: str):
+    conn = conectar_banco();
+    cursor = conn.cursor(dictionary=True);
+    sql = "SELECT * FROM mangas WHERE idManga = %s";
+    valores = (mangaId, );
+    cursor.execute(sql, valores);
+    response = cursor.fetchall();
+    cursor.close();
+    conn.close();
+    return response;
+
+# Rota para puxar a quantidade de likes e deslikes do manga
+@app.post("/qntLikeManga")
+def qntLikes(qntLikeManga: qntLikeManga):
+    conn = conectar_banco();
+    cursor = conn.cursor();
+    sql = "SELECT COUNT(likeType) FROM likeMangas WHERE idManga = %s AND likeType = %s";
+    valores = (qntLikeManga.idManga, qntLikeManga.likeType );
+    cursor.execute(sql, valores);
+    response = cursor.fetchall();
+    cursor.close();
+    conn.close();
+    return {"qnt": response[0][0] };
+
+# Rota para salvar o like ou deslike do manga
+@app.post("/likeManga")
+def likeManga(likeManga: infoLikeManga):
+    try:
+        conn = conectar_banco();
+        cursor = conn.cursor();
+
+        sql = "INSERT IGNORE INTO likeMangas (idManga, codigo, dateLike, likeType) VALUES (%s, %s, %s, %s)";
+        valores = (likeManga.idManga, likeManga.codigoUsuario, likeManga.dateLike, likeManga.like);
+        cursor.execute(sql, valores);
+        conn.commit();
+
+        # Verifica se a linha foi inserida
+        if cursor.rowcount == 1:
+            mensagem = "Like/deslike inserido e manga atualizado com sucesso.";
+            alreadyLiked = False;
+        else:
+            mensagem = "Usuário já curtiu/descurtiu esse mangá. Nenhuma alteração feita.";
+            alreadyLiked = True;
+
+        return {"mensagem": mensagem, "alreadyLiked": alreadyLiked};
+
+    except pymysql.MySQLError as e:
+        raise HTTPException(status_code=500, detail=f"Erro no banco de dados: {str(e)}");
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ocorreu um erro inesperado: {str(e)}");
+    finally:
+        try:
+            cursor.close();
+            conn.close();
+        except:
+            pass
+
+# Rota para remover o like ou deslike do manga
+@app.post("/removeLikeManga")
+def likeManga(likeManga: infoRemoveLikeManga):
+    try:
+        conn = conectar_banco();
+        cursor = conn.cursor();
+
+        sql = "DELETE FROM likeMangas WHERE idManga = %s AND codigo = %s";
+        valores = (likeManga.idManga, likeManga.codigoUsuario,);
+        cursor.execute(sql, valores);
+        conn.commit();
+
+        # Verifica se a linha foi inserida
+        if cursor.rowcount == 1:
+            mensagem = "O usuário ainda não curtiu/descurtiu esse mangá.";
+        else:
+            mensagem = "Usuário já curtiu/descurtiu esse mangá. API chamada indevidamente, nenhuma alteração foi realizada.";
+
+        return {"mensagem": mensagem};
+
+    except pymysql.MySQLError as e:
+        raise HTTPException(status_code=500, detail=f"Erro no banco de dados: {str(e)}");
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ocorreu um erro inesperado: {str(e)}");
+    finally:
+        try:
+            cursor.close();
+            conn.close();
+        except:
+            pass
+
+# Rota para puxar a quantidade de likes e deslikes do manga
+@app.post("/verifyLike")
+def qntLikes(verifyLike: verifyLike):
+    conn = conectar_banco();
+    cursor = conn.cursor();
+    sql = "SELECT likeId FROM likeMangas WHERE idManga = %s AND codigo = %s AND likeType = %s";
+    valores = (verifyLike.idManga, verifyLike.codigoUsuario, verifyLike.likeType );
+    cursor.execute(sql, valores);
+    response = cursor.fetchall();
+    cursor.close();
+    conn.close();
+    return {"mensagem": "Usuário já curtiu/descurtiu esse mangá.", "likeId": response};
 
 # Função para armazenar o token de acesso do usuário no banco de dados
 def saveAccessToken(token: str, email: str):
@@ -229,7 +356,7 @@ def checkPassword(password: str, hash: str):
 def createToken(email):
     payload = {
         "email": email,
-        "exp": datetime.now(timezone.utc) + timedelta(hours=30),  # expira em 1 hora
+        "exp": datetime.now(timezone.utc) + timedelta(hours=730),  # expira em 1 hora
         "iat": datetime.now(timezone.utc)  # empo de criação
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)

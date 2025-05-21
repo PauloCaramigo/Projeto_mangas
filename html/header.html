@@ -1,11 +1,11 @@
 <header class="flex justify-between items-center p-6">
-    <img src="../src/menu.svg" id="hamburguerMenuIcon" class="cursor-pointer">
+    <img src="/src/menu.svg" id="hamburguerMenuIcon" class="cursor-pointer">
 
     <div id="sideMenu" class="fixed bg-gray-200 w-100 h-screen -translate-x-full left-0 top-0 z-50 p-8 transition duration-300">
-        <img src="../src/menu.svg" id="hamburguerMenuIconSideMenu" class="cursor-pointer">
+        <img src="/src/menu.svg" id="hamburguerMenuIconSideMenu" class="cursor-pointer">
 
         <div class="flex flex-col mt-10">        
-            <a href="mainPage.html" >Pagina principal</a>
+            <a href="/" >Pagina principal</a>
         </div>
     </div>
 
@@ -13,19 +13,19 @@
 
     <div class="relative">
         <button type="button" id="menuAccount" class="cursor-pointer ml-10">
-            <img src="../src/accountCircle.svg" class="cursor-pointer w-8 rounded-full" id="imgProfileHeader">
+            <img src="/src/accountCircle.svg" class="cursor-pointer w-8 rounded-full" id="imgProfileHeader">
         </button>
         
         <div id="dropdownMenuAccount" class="absolute border border-gray-300 rounded-lg bg-gray-100 p-6 w-100 top-10 end-0 z-40" hidden="true">
             <div class="flex flex-col">
                 <a id="profileHeader" class="cursor-pointer">Perfil</a>
-                <a href="#" >Desempenho</a>
-                <a href="#" >Historico</a>
-                <a href="#" >Configurações</a>
-                <a id="login" class="mt-4">Entrar</a>
-                <a href="#" id="logout" class="mt-4 text-red-800" hidden>Sair</a>
+                <a id="performanceHeader" class="cursor-pointer">Desempenho</a>
+                <a id="historyHeader" class="cursor-pointer">Historico</a>
+                <a id="configHeader" class="cursor-pointer">Configurações</a>
+
+                <a href="/login" id="login" class="mt-4">Entrar</a>
+                <a href="#" id="logoutHeader" class="mt-4 text-red-800" hidden>Sair</a>
             </div>
         </div>
     </div>
-
 </header>
